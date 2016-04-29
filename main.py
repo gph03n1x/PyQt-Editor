@@ -7,12 +7,16 @@ import core.brush.brush as brush
 
 
 class Notepad(QtGui.QMainWindow):
-
+    """Notepad gui class"""
     def __init__(self):
         super(Notepad, self).__init__()
         self.initUI()
 
     def initUI(self):
+        """
+        Creates the gui and associates the shortcuts
+        with their default actions
+        """
         newAction = QtGui.QAction('New', self)
         newAction.setShortcut('Ctrl+N')
         newAction.setStatusTip('Create new file')
@@ -47,11 +51,13 @@ class Notepad(QtGui.QMainWindow):
         self.show()
 
     def newFile(self):
+        """Creates a new tab and a new file"""
         text_widget = QtGui.QTextEdit(self.tab_widget)
         text_widget.setFont(QtGui.QFont("Courier", 10))
         self.tab_widget.addTab(text_widget, "new")
 
     def saveFile(self):
+        """Saves the file"""
         filename = QtGui.QFileDialog.getSaveFileName(self, 'Save File',
              os.path.join(os.path.expanduser('~'), 'Desktop'))
         f = open(filename, 'w')
@@ -60,6 +66,7 @@ class Notepad(QtGui.QMainWindow):
         f.close()
 
     def openFile(self):
+        """opens a file in a new tab and highlights it based on the extension"""
         filename = QtGui.QFileDialog.getOpenFileName(self, 'Open File',
              os.path.join(os.path.expanduser('~'), 'Desktop'))
         f = open(filename, 'r')
@@ -74,6 +81,7 @@ class Notepad(QtGui.QMainWindow):
 
 
 def main():
+    """creates the gui"""
     app = QtGui.QApplication(sys.argv)
     notepad = Notepad()
     notepad.show()

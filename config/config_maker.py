@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import ConfigParser
-from PyQt4.QtCore import *
-
-config = ConfigParser.RawConfigParser()
-language = {
+LANGUAGE = "php"
+EXTENSION = "php"
+LANGUAGE_SYNTAX = {
     'echo': "Qt.cyan",
     'print': "Qt.cyan",
     'while': "Qt.darkBlue",
@@ -29,20 +27,16 @@ language = {
     'new': "Qt.darkBlue",
     'array': "Qt.cyan",
     'null': "Qt.cyan",
+}
 
-    }
-# When adding sections or items, add them in the reverse order of
-# how you want them to be displayed in the actual file.
-# In addition, please note that using RawConfigParser's and the raw
-# mode of ConfigParser's respective set functions, you can assign
-# non-string values to keys internally, but will receive an error
-# when attempting to write to a file or when you get it in non-raw
-# mode. SafeConfigParser does not allow such assignments to take place.
+import ConfigParser
+# Create a quick brush.ini
+config = ConfigParser.RawConfigParser()
+# Set extension and language syntax
 config.add_section('Settings')
-config.set('Settings', 'extension', 'php')
+config.set('Settings', 'extension', EXTENSION)
 config.add_section('Language')
-config.set('Language', 'language', language)
-
-# Writing our configuration file to 'example.cfg'
-with open('phpBrush.ini.', 'wb') as configfile:
+config.set('Language', 'language', LANGUAGE_SYNTAX)
+# write them in the brush.ini file
+with open(LANGUAGE+'Brush.ini.', 'wb') as configfile:
     config.write(configfile)
