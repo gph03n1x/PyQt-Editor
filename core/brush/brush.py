@@ -9,6 +9,10 @@ global dict_mod
 
 
 try:
+    """
+    Create for each extension a dictionary entry with
+    the language syntax
+    """
     modnames = [name for name in os.listdir("config")
      if name.endswith("Brush.ini")]
     dict_mod = {}
@@ -25,11 +29,13 @@ except Exception:
 
 class highlightSyntax(QSyntaxHighlighter):
     def __init__(self, parent=None):
+        """Syntax higlighter class"""
         super(highlightSyntax, self).__init__(parent)
         self.highlightingRules = []
         self.basic_regexes()
 
     def hl_k(self, color):
+        """Higlights a keyword"""
         brush = QBrush(eval(color), Qt.SolidPattern)
         keyword = QTextCharFormat()
         keyword.setForeground(brush)
@@ -37,6 +43,10 @@ class highlightSyntax(QSyntaxHighlighter):
         return keyword
 
     def basic_regexes(self):
+        """
+        Regexes for highlighting stuff like comments
+        Warning : This is hardcoded
+        """
         singleLineCommentFormat = QTextCharFormat()
         singleLineCommentFormat.setForeground(Qt.red)
         self.highlightingRules.append(hl_r(QRegExp("#[^\n]*"),
@@ -55,6 +65,7 @@ class highlightSyntax(QSyntaxHighlighter):
                 functionFormat))
 
     def change_extension(self, extension):
+        """Changes the extension and thus the highlightingRules"""
         self.highlightingRules = []
         try:
             self.highlightingRules = [hl_r(QRegExp("\\b" + word + "\\b"),
@@ -65,6 +76,7 @@ class highlightSyntax(QSyntaxHighlighter):
         self.basic_regexes()
 
     def highlightBlock(self, text):
+        """highlights a block of text"""
         for rule in self.highlightingRules:
             expression = QRegExp(rule.pattern)
             index = expression.indexIn(text)
@@ -79,5 +91,6 @@ class highlightSyntax(QSyntaxHighlighter):
 
 class hl_r(object):
     def __init__(self, pattern, format):
+        """Class which includes just two attributes"""
         self.pattern = pattern
         self.format = format
